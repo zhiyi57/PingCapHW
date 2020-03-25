@@ -522,11 +522,11 @@ var fileDescriptor_800e655f4175c128 = []byte{
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
-var _ grpc.ClientConnInterface
+//var _ grpc.ClientConnInterface
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+//const _ = grpc.SupportPackageIsVersion6
 
 // TikvClient is the client API for Tikv service.
 //
@@ -540,10 +540,10 @@ type TikvClient interface {
 }
 
 type tikvClient struct {
-	cc grpc.ClientConnInterface
+	cc *grpc.ClientConn
 }
 
-func NewTikvClient(cc grpc.ClientConnInterface) TikvClient {
+func NewTikvClient(cc *grpc.ClientConn) TikvClient {
 	return &tikvClient{cc}
 }
 
