@@ -1,28 +1,15 @@
-// Copyright 2019 PingCAP, Inc.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package main
 
 import (
 	"context"
 	"flag"
 	"fmt"
-	"log"
-	"net"
+	"github.com/pingcap/tidb/config"
+	"github.com/pingcap/tidb/store/tikv"
 	pb "github.com/zhiyi57/PingCapHW/proto/kvrawpb"
 	"google.golang.org/grpc"
-	"github.com/pingcap/tidb/store/tikv"
-	"github.com/pingcap/tidb/config"
+	"log"
+	"net"
 )
 
 var (
@@ -62,13 +49,13 @@ func (t *tikvServer) RawScan(ctx context.Context, r *pb.RawScanRequest) (*pb.Raw
 	if err != nil {
 		return nil, err
 	}
-	pairs := [] *pb.KvPair{}
+	pairs := []*pb.KvPair{}
 
 	for i := 0; i < len(keys) && i < len(values); i++ {
-		tmp := pb.KvPair{Key:keys[i],Value:values[i]}
+		tmp := pb.KvPair{Key: keys[i], Value: values[i]}
 		pairs = append(pairs, &tmp)
 	}
-	return &pb.RawScanResponse{Kvs:pairs}, nil
+	return &pb.RawScanResponse{Kvs: pairs}, nil
 }
 
 func (t *tikvServer) Close() error {
@@ -79,9 +66,8 @@ func (t *tikvServer) Close() error {
 	return nil
 }
 
-
 func NewServer() *tikvServer {
-	pdCli, err := tikv.NewRawKVClient([]string{"localhost:2379"}, config.Security{})
+	pdCli, err := tikv.NewRawKVClient([]string{"10.0.26.75:2379"}, config.Security{})
 	if err != nil {
 		panic(err)
 	}
